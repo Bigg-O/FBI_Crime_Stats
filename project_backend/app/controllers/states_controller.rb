@@ -1,7 +1,7 @@
 class StatesController < ApplicationController
 
-    def index
-        states = States.ApplicationController
-        render json: states
+    def index 
+        render json: State.all
     end
+
 end
