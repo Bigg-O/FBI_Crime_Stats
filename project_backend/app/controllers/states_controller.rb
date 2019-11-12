@@ -1,7 +1,8 @@
 class StatesController < ApplicationController
 
     def index 
-        render json: State.all
+        state = State.all 
+        render json: state, except: [:created_at, :updated_at]
     end
 
 end
