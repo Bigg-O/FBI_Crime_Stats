@@ -41,8 +41,7 @@ function stateCrimeURL(state) {
 
 function renderStateData(stateData) {
     const data = stateData.results.find(function(state) {
-        return (state.year == 2018)
-    })
+        return (state.year == 2018)})
     STATE_CRIMES.burglary = data.burglary
     STATE_CRIMES.larceny = data.larceny
     STATE_CRIMES.robbery = data.robbery
@@ -87,9 +86,7 @@ function displayChart() {
                     'rgba(75, 192, 192, 1)',
                     'rgba(153, 102, 255, 1)',
                     'rgba(255, 159, 64, 1)'],
-                borderWidth: 1
-            }]
-        },
+                borderWidth: 1}]},
         options: {scales: {yAxes: [{ticks: {beginAtZero: true}}]}}
-    });
+    })
 }
