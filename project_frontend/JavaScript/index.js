@@ -63,9 +63,8 @@ function fetchNationalData() {
 
 function displayChart() {
     if (!!CHART)
-    CHART.destroy()
+        CHART.destroy()
     let chart = document.getElementById('myChart');
-
     CHART = new Chart(chart, {
         type: 'bar',
         data: {
