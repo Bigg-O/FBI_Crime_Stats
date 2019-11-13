@@ -4,6 +4,7 @@ const STATES_URL = "http://localhost:3000/states"
 const NATIONAL_CRIME_URL = `https://api.usa.gov/crime/fbi/sapi/api/estimates/national/2018/2018?API_KEY=${API_KEY}`
 let STATE_CRIMES = {"burglary": 0, "larceny": 0, "robbery": 0}
 let NATIONAL_CRIMES = {"burglary": 0, "larceny": 0, "robbery": 0}
+let CHART = null
 
 // MAIN
 document.addEventListener("DOMContentLoaded", function() {
@@ -41,8 +42,7 @@ function stateCrimeURL(state) {
 
 function renderStateData(stateData) {
     const data = stateData.results.find(function(state) {
-        return (state.year == 2018)
-    })
+        return (state.year == 2018)})
     STATE_CRIMES.burglary = data.burglary
     STATE_CRIMES.larceny = data.larceny
     STATE_CRIMES.robbery = data.robbery
@@ -62,8 +62,11 @@ function fetchNationalData() {
 }
 
 function displayChart() {
+    if (!!CHART)
+    CHART.destroy()
     let chart = document.getElementById('myChart');
-    let myChart = new Chart(chart, {
+
+    CHART = new Chart(chart, {
         type: 'bar',
         data: {
             labels: ['natBurglary', 'stateBurglary', 'natLarceny', 'stateLarceny', 'natRobbery', 'stateRobbery'],
@@ -87,9 +90,7 @@ function displayChart() {
                     'rgba(75, 192, 192, 1)',
                     'rgba(153, 102, 255, 1)',
                     'rgba(255, 159, 64, 1)'],
-                borderWidth: 1
-            }]
-        },
+                borderWidth: 1}]},
         options: {scales: {yAxes: [{ticks: {beginAtZero: true}}]}}
-    });
+    })
 }
