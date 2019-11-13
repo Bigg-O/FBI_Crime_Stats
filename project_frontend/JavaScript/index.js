@@ -9,7 +9,7 @@ let NATIONAL_CRIMES = {"burglary": 0, "larceny": 0, "robbery": 0}
 document.addEventListener("DOMContentLoaded", function() {
     fetchData(NATIONAL_CRIME_URL)
     fetchStates()
-    chart()
+  
 })
 
 // FUNCTIONS BELOW
@@ -21,6 +21,7 @@ function fetchData(url) {
         NATIONAL_CRIMES.burglary = data.results[0].burglary
         NATIONAL_CRIMES.larceny = data.results[0].larceny
         NATIONAL_CRIMES.robbery = data.results[0].robbery
+        chart()
     })
 }
 
@@ -39,8 +40,8 @@ function renderData(stateData) {
         return (state.year == 2018)
     })
     STATE_CRIMES.burglary = data.burglary
-    STATE_CRIMES.larceny = data.homicide
-    STATE_CRIMES.robbery = data.larceny
+    STATE_CRIMES.larceny = data.larceny
+    STATE_CRIMES.robbery = data.robbery
     chart()
 }
 
@@ -61,13 +62,13 @@ function createDropdown(states) {
 }
 
 function chart() {
-    var ctx = document.getElementById('myChart');
+    var ctx = document.getElementById('myChart') 
     var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: ['natBurglary', 'stateBurglary', 'natLarceny', 'stateLarceny', 'natRobbery', 'stateRobbery'],
         datasets: [{
-            label: '# of Votes',
+            label: '# of crimes commited',
             data: [
                 NATIONAL_CRIMES.burglary, STATE_CRIMES.burglary,
                 NATIONAL_CRIMES.larceny, STATE_CRIMES.larceny,
@@ -103,3 +104,4 @@ function chart() {
     }
 });
 }
+
