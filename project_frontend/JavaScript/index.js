@@ -4,6 +4,7 @@ const STATES_URL = "http://localhost:3000/states"
 const NATIONAL_CRIME_URL = `https://api.usa.gov/crime/fbi/sapi/api/estimates/national/2018/2018?API_KEY=${API_KEY}`
 let STATE_CRIMES = {"burglary": 0, "larceny": 0, "robbery": 0}
 let NATIONAL_CRIMES = {"burglary": 0, "larceny": 0, "robbery": 0}
+let CHART = null
 
 // MAIN
 document.addEventListener("DOMContentLoaded", function() {
@@ -61,13 +62,15 @@ function fetchNationalData() {
 }
 
 function displayChart() {
-    const chart = document.getElementById('myChart');
-    const myChart = new Chart(chart, {
+    if (!!CHART)
+        CHART.destroy()
+    let chart = document.getElementById('myChart');
+    CHART = new Chart(chart, {
         type: 'bar',
         data: {
             labels: ['natBurglary', 'stateBurglary', 'natLarceny', 'stateLarceny', 'natRobbery', 'stateRobbery'],
             datasets: [{
-                label: '# of Votes',
+                label: '# of crimes commited',
                 data: [
                     NATIONAL_CRIMES.burglary, STATE_CRIMES.burglary,
                     NATIONAL_CRIMES.larceny, STATE_CRIMES.larceny,
