@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Project</title>
-</head>
-<body>
-    <h1>Project</h1>
-    <div class="Filter">
-    </div>
-    <div class="National-Data">
-        <h1>National Data</h1>
-    </div>
-    <div class="State-Data">
-        <h1>Your searched state's data</h1>
-    </div>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="ie=edge" http-equiv="X-UA-Compatible">
+  <title>Project</title>
 
-    <script src="../JavaScript/index.js"></script>
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+  <link href="../css/index.css" rel="stylesheet">
+
+  <script src="path/to/chartjs/dist/Chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+</head>
+
+<body>
+  <h1>Project</h1>
+  <div class="dropdown">
+    <button aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" id="dropdownMenuButton" type="button">
+      States
+    </button>
+    <div aria-labelledby="dropdownMenuButton" class="dropdown-menu" id="myDropdown"></div>
+  </div>
+  <form id="comment_form">
+    <input id="comment_input" name="comment" placeholder="Add Comment" type="text"/>
+    <input type="submit" value="Submit"/>
+  </form>
+  <canvas height="720" id="myChart" style="display: block; height: 360px; width: 720px;" width="1440">
+
+  <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="../JavaScript/index.js"></script>
 </body>
 </html>
