@@ -4,23 +4,41 @@
     max-height: 300px;
 }
 
-div.card {
-    background-color: beige;
-    height: 150px;
-    width: 450px;
-    /* box-shadow: 10px 10px grey; */
-    padding: 10px;
-    border-radius: 10px;
-  }
+.form-control {
+    width: 35%
+}
 
-  p {
-    font-size: .8em;
-    color: black;
-    font-family: Helvetica;
-  }
+.btn-secondary {
+    color: #fff;
+    background-color: black;
+    border-color: #6c757d;
+}
 
-  /* li {
-    font-size: 1.05em;
-    list-style: none;
-    padding-right: 20px;
-  } */
+canvas {
+    background-color: rgba(47, 152, 208, 0.1);
+ }
+
+ #comments-container {
+    margin-left: 50px;
+ }
+
+ .blue-button {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+ }
+
+ #container {
+    display: inline-block;
+}
+#comments-container {
+    display: inline-block;
+}
+
+/* .header {
+  padding: 60px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+  font-size: 30px;
+} */

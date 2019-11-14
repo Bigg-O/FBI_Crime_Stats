@@ -36,7 +36,7 @@ function createDropdown(states) {
             fetch(stateCrimeURL(state.abbreviation))
             .then(response => response.json())
             .then(stateData => renderStateData(state, stateData))
-            createComment(state)
+            createCommentForm(state)
         })
     })
 }
@@ -48,29 +48,22 @@ function stateCrimeURL(state) {
 function renderStateData(state, stateData) {
     if (!!UL_COMMENT)
         UL_COMMENT.remove()
-    displayChart()
     const data = stateData.results.find(function(state) {
         return (state.year == 2018)})
-        debugger
-        let divCard = document.querySelector("#card")
-        divCard.innerHTML = `
-        <h3>${state.abbreviation}</h3> 
-        <p>Burglary Count: ${data.burglary}</p>
-        <p>Larceny Count: ${data.larceny}</p>
-        <p>Robbery Count: ${data.robbery}</p>
-        `
     STATE_CRIMES.burglary = data.burglary
     STATE_CRIMES.larceny = data.larceny
     STATE_CRIMES.robbery = data.robbery
     const stateId = state.id
     const commentContainer = document.querySelector("#comments-container")
     UL_COMMENT = document.createElement("ul")
+    UL_COMMENT.classList.add("list-group")
     fetch(`http://localhost:3000/states/${state.id}`)
     .then(resp => resp.json())
     .then(state => {
         state.comments.forEach(comment => {
            const liComment = document.createElement("li")
-            liComment.innerHTML = comment.content
+           liComment.classList.add("list-group-item")
+            liComment.innerHTML = state.name +': '+ comment.content
             UL_COMMENT.append(liComment)
             commentContainer.append(UL_COMMENT) 
         })
@@ -96,6 +89,7 @@ function renderStateData(state, stateData) {
                     )
                 })
             })
+            displayChart()
 }
 
 // National Data
@@ -110,7 +104,7 @@ function fetchNationalData() {
     })
 }
 
-function createComment(state) {
+function createCommentForm(state) {
     if (!!COMMENT_FORM)
         COMMENT_FORM.remove()
     const container = document.querySelector("#container")
@@ -122,6 +116,7 @@ function createComment(state) {
     formInput.id = "form_input"
     formSubmit.type = "submit"
     formSubmit.value = "Submit"
+    formSubmit.classList.add("blue-button")
     COMMENT_FORM.append(formInput, formSubmit)
     container.append(COMMENT_FORM)
 }
@@ -138,9 +133,9 @@ function displayChart() {
             datasets: [{
                 label: '# of crimes commited',
                 data: [
-                    NATIONAL_CRIMES.burglary, STATE_CRIMES.burglary,
-                    NATIONAL_CRIMES.larceny, STATE_CRIMES.larceny,
-                    NATIONAL_CRIMES.robbery, STATE_CRIMES.robbery],
+                    NATIONAL_CRIMES.burglary/50, STATE_CRIMES.burglary,
+                    NATIONAL_CRIMES.larceny/50, STATE_CRIMES.larceny,
+                    NATIONAL_CRIMES.robbery/50, STATE_CRIMES.robbery],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
