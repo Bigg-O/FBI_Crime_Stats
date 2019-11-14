@@ -5,10 +5,22 @@
 }
 
 div.card {
-    background-color: #eeeeee;
-    height: 250px;
-    width: 300px;
-    box-shadow: 10px 10px grey;
+    background-color: beige;
+    height: 150px;
+    width: 450px;
+    /* box-shadow: 10px 10px grey; */
     padding: 10px;
     border-radius: 10px;
   }
+
+  p {
+    font-size: .8em;
+    color: black;
+    font-family: Helvetica;
+  }
+
+  /* li {
+    font-size: 1.05em;
+    list-style: none;
+    padding-right: 20px;
+  } */

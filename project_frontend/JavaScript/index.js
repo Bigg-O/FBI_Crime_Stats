@@ -6,8 +6,8 @@ const NATIONAL_CRIME_URL = `https://api.usa.gov/crime/fbi/sapi/api/estimates/nat
 let STATE_CRIMES = {"burglary": 0, "larceny": 0, "robbery": 0}
 let NATIONAL_CRIMES = {"burglary": 0, "larceny": 0, "robbery": 0}
 let CHART = null
-let FORM = null
-let ulComment = null
+let COMMENT_FORM = null
+let UL_COMMENT = null
 
 
 // MAIN
@@ -46,35 +46,43 @@ function stateCrimeURL(state) {
 }
 
 function renderStateData(state, stateData) {
-    if (!!ulComment)
-        ulComment.remove()
-        displayChart()
+    if (!!UL_COMMENT)
+        UL_COMMENT.remove()
+    displayChart()
     const data = stateData.results.find(function(state) {
         return (state.year == 2018)})
+        debugger
+        let divCard = document.querySelector("#card")
+        divCard.innerHTML = `
+        <h3>${state.abbreviation}</h3> 
+        <p>Burglary Count: ${data.burglary}</p>
+        <p>Larceny Count: ${data.larceny}</p>
+        <p>Robbery Count: ${data.robbery}</p>
+        `
     STATE_CRIMES.burglary = data.burglary
     STATE_CRIMES.larceny = data.larceny
     STATE_CRIMES.robbery = data.robbery
     const stateId = state.id
     const commentContainer = document.querySelector("#comments-container")
-    ulComment = document.createElement("ul")
+    UL_COMMENT = document.createElement("ul")
     fetch(`http://localhost:3000/states/${state.id}`)
     .then(resp => resp.json())
     .then(state => {
         state.comments.forEach(comment => {
            const liComment = document.createElement("li")
             liComment.innerHTML = comment.content
-            ulComment.append(liComment)
-            commentContainer.append(ulComment) 
+            UL_COMMENT.append(liComment)
+            commentContainer.append(UL_COMMENT) 
         })
     })
-    const grabForm = document.querySelector("#comment-id")
-    grabForm.addEventListener('submit', function(e) {
+    const grabCommentForm = document.querySelector("#comment-id")
+    grabCommentForm.addEventListener('submit', function(e) {
         e.preventDefault()
         const liNewComment = document.createElement("li")
         const commentInput = document.querySelector("#form_input").value
         liNewComment.innerHTML = commentInput
-        ulComment.append(liNewComment)
-        commentContainer.append(ulComment)      
+        UL_COMMENT.append(liNewComment)
+        commentContainer.append(UL_COMMENT)      
         fetch(COMMENTS_URL, {
             method: "POST",
             headers: {
@@ -103,28 +111,21 @@ function fetchNationalData() {
 }
 
 function createComment(state) {
-    if (!!FORM)
-        FORM.remove()
-    // const stateId = state.id
+    if (!!COMMENT_FORM)
+        COMMENT_FORM.remove()
     const container = document.querySelector("#container")
-    FORM = document.createElement("FORM")
-    FORM.id = "comment-id"
+    COMMENT_FORM = document.createElement("FORM")
+    COMMENT_FORM.id = "comment-id"
     const formInput = document.createElement("INPUT")
     const formSubmit = document.createElement("INPUT")
-    // ulComment = document.createElement("ul")
     formInput.type = "text"
     formInput.id = "form_input"
     formSubmit.type = "submit"
     formSubmit.value = "Submit"
-    FORM.append(formInput, formSubmit)
-    container.append(FORM)
+    COMMENT_FORM.append(formInput, formSubmit)
+    container.append(COMMENT_FORM)
 }
-   
-function createCard() {
-    let div = document.createElement("div")
-    let trainerContainer = document.getElementById("trainer-container")
-     div.className = "card"
-}
+
 
 function displayChart() {
     if (!!CHART)
@@ -155,6 +156,12 @@ function displayChart() {
                     'rgba(153, 102, 255, 1)',
                     'rgba(255, 159, 64, 1)'],
                 borderWidth: 1}]},
-        options: {scales: {yAxes: [{ticks: {beginAtZero: true}}]}}
+        options: {scales: 
+                    {yAxes: 
+                        [{ticks: 
+                            {beginAtZero: true}
+                        }]
+                    }
+                }
     })
 }
