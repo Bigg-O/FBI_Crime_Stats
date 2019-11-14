@@ -35,10 +35,13 @@ canvas {
     display: inline-block;
 }
 
-/* .header {
+.header {
   padding: 60px;
   text-align: center;
-  background: #1abc9c;
+  background: #091841;
   color: white;
   font-size: 30px;
-} */
+  height: 116px;
+line-height: 116px;
+}
+
