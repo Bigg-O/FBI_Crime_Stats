@@ -37,12 +37,12 @@ function createDropdown(states) {
         dropDownDiv.append(dropDown)
         // Event Lisenter for State dropdown
         dropDown.addEventListener("click", function() {
+            const filterName = document.querySelector("#dropdownMenuButton")
+            filterName.innerHTML = state.name
             fetch(stateCrimeURL(state.abbreviation))
             .then(response => response.json())
-            .then(function(stateData) {
-                renderStateData(state, stateData)
-            })
-            createComment(state)
+            .then(stateData => renderStateData(state, stateData))
+            createCommentForm(state)
         })
     })
 }
@@ -72,12 +72,14 @@ function renderStateData(state, stateData) {
     const stateId = state.id
     const commentContainer = document.querySelector("#comments-container")
     UL_COMMENT = document.createElement("ul")
+    UL_COMMENT.classList.add("list-group")
     fetch(`http://localhost:3000/states/${state.id}`)
     .then(resp => resp.json())
     .then(state => {
         state.comments.forEach(comment => {
-            const liComment = document.createElement("li")
-            liComment.innerHTML = comment.content
+           const liComment = document.createElement("li")
+           liComment.classList.add("list-group-item")
+            liComment.innerHTML = state.name +': '+ comment.content
             UL_COMMENT.append(liComment)
             commentContainer.append(UL_COMMENT) 
         })
@@ -125,7 +127,7 @@ function fetchNationalData() {
     })
 }
 
-function createComment(state) {
+function createCommentForm(state) {
     if (!!COMMENT_FORM)
         COMMENT_FORM.remove()
     const container = document.querySelector("#container")
@@ -137,6 +139,7 @@ function createComment(state) {
     formInput.id = "form_input"
     formSubmit.type = "submit"
     formSubmit.value = "Submit"
+    formSubmit.classList.add("blue-button")
     COMMENT_FORM.append(formInput, formSubmit)
     container.append(COMMENT_FORM)
 }
@@ -150,9 +153,9 @@ function displayChart() {
         data: {
             labels: [
                 'Arson',
-                '',
+                'State Arson',
                 'Burglary',
-                '',
+                'State Burglary',
                 'Homicide',
                 '',
                 'Larceny',
@@ -168,7 +171,7 @@ function displayChart() {
                 'Violent Crime',
                 ''],
             datasets: [{
-                label: '# of crimes commited',
+                label: '# of crimes commited on a National per capita basis',
                 data: [
                     NATIONAL_CRIMES.arson, STATE_CRIMES.arson,
                     NATIONAL_CRIMES.burglary, STATE_CRIMES.burglary,
@@ -200,6 +203,20 @@ function displayChart() {
                     'rgba(0, 0, 0, 255)'
                 ],
                 borderWidth: 1}]},
-        options: {scales: {yAxes: [{ticks: {beginAtZero: true}}]}}
+        options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            },
+            title: {
+              fontSize: 18,
+              display: true,
+              text: 'Crime Data',
+              position: 'bottom'
+            }
+          }
     })
 }
