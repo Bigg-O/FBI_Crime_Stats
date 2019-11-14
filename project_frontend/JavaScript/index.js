@@ -1,10 +1,14 @@
 // Global Variables
 const API_KEY = "23MwwOlEB8Cnag16MoWiOPrBj1yQucexgv6kkwMM"
 const STATES_URL = "http://localhost:3000/states"
+const COMMENTS_URL = "http://localhost:3000/comments"
 const NATIONAL_CRIME_URL = `https://api.usa.gov/crime/fbi/sapi/api/estimates/national/2018/2018?API_KEY=${API_KEY}`
 let STATE_CRIMES = {"burglary": 0, "larceny": 0, "robbery": 0}
 let NATIONAL_CRIMES = {"burglary": 0, "larceny": 0, "robbery": 0}
 let CHART = null
+let FORM = null
+let ulComment = null
+
 
 // MAIN
 document.addEventListener("DOMContentLoaded", function() {
@@ -31,7 +35,8 @@ function createDropdown(states) {
         dropDown.addEventListener("click", function() {
             fetch(stateCrimeURL(state.abbreviation))
             .then(response => response.json())
-            .then(stateData => renderStateData(stateData))
+            .then(stateData => renderStateData(state, stateData))
+            createComment(state)
         })
     })
 }
@@ -40,13 +45,49 @@ function stateCrimeURL(state) {
     return `https://api.usa.gov/crime/fbi/sapi/api/estimates/states/${state}/2018/2018?API_KEY=${API_KEY}`
 }
 
-function renderStateData(stateData) {
+function renderStateData(state, stateData) {
+    if (!!ulComment)
+        ulComment.remove()
+        displayChart()
     const data = stateData.results.find(function(state) {
         return (state.year == 2018)})
     STATE_CRIMES.burglary = data.burglary
     STATE_CRIMES.larceny = data.larceny
     STATE_CRIMES.robbery = data.robbery
-    displayChart()
+    const stateId = state.id
+    const commentContainer = document.querySelector("#comments-container")
+    ulComment = document.createElement("ul")
+    fetch(`http://localhost:3000/states/${state.id}`)
+    .then(resp => resp.json())
+    .then(state => {
+        state.comments.forEach(comment => {
+           const liComment = document.createElement("li")
+            liComment.innerHTML = comment.content
+            ulComment.append(liComment)
+            commentContainer.append(ulComment) 
+        })
+    })
+    const grabForm = document.querySelector("#comment-id")
+    grabForm.addEventListener('submit', function(e) {
+        e.preventDefault()
+        const liNewComment = document.createElement("li")
+        const commentInput = document.querySelector("#form_input").value
+        liNewComment.innerHTML = commentInput
+        ulComment.append(liNewComment)
+        commentContainer.append(ulComment)      
+        fetch(COMMENTS_URL, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(
+                {content: commentInput,
+                    username: "default",
+                    state_id: stateId}
+                    )
+                })
+            })
 }
 
 // National Data
@@ -59,6 +100,30 @@ function fetchNationalData() {
         NATIONAL_CRIMES.robbery = data.results[0].robbery
         displayChart()
     })
+}
+
+function createComment(state) {
+    if (!!FORM)
+        FORM.remove()
+    // const stateId = state.id
+    const container = document.querySelector("#container")
+    FORM = document.createElement("FORM")
+    FORM.id = "comment-id"
+    const formInput = document.createElement("INPUT")
+    const formSubmit = document.createElement("INPUT")
+    // ulComment = document.createElement("ul")
+    formInput.type = "text"
+    formInput.id = "form_input"
+    formSubmit.type = "submit"
+    formSubmit.value = "Submit"
+    FORM.append(formInput, formSubmit)
+    container.append(FORM)
+}
+   
+function createCard() {
+    let div = document.createElement("div")
+    let trainerContainer = document.getElementById("trainer-container")
+     div.className = "card"
 }
 
 function displayChart() {

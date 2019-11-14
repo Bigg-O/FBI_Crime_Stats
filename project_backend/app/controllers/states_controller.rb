@@ -1,8 +1,13 @@
 class StatesController < ApplicationController
 
     def index 
-        state = State.all 
-        render json: state, except: [:created_at, :updated_at]
+        states = State.all 
+        render json: states
+    end
+
+    def show
+        state = State.find_by(id: params[:id])
+        render json: state, include: [:comments]
     end
 
 end
