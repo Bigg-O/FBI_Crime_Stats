@@ -30,18 +30,71 @@ canvas {
 
  #container {
     display: inline-block;
+    width: 100%;
 }
 #comments-container {
     display: inline-block;
+    width: 300px
 }
+.list-group>li:nth-child(odd){
+    background:rgb(182, 206, 238);
+    }
 
-.header {
-  padding: 60px;
+#header {
+  padding: 10px;
   text-align: center;
   background: #091841;
   color: white;
   font-size: 30px;
-  height: 116px;
-line-height: 116px;
+  height: 80px;
+  line-height: 80px;
 }
 
+#dropdownMenuButton {
+    width: 150px;
+    text-align: center;
+    margin: 30px;
+    right: 0px;
+  }
+
+  .dropdown {
+      text-align: center;
+  }
+
+  #myChart{
+    width: 100%;
+    height: 700px;
+  }
+
+  #line-chart{
+      width: 100%;
+  }
+
+  .chartcon {
+      width: 100%;
+      max-width: 1000px;
+      padding: 20px;
+      margin: 0 auto;
+  }
+
+  #theCon {
+      width: 70%;
+      display: inline-block;
+  }
+
+  #allcomments {
+      width: 29%;
+      float: right;
+  }
+
+  .form-control {
+      width: 100%
+  }
+
+  #comment-id {
+      margin: 0 40px 0 0;
+  }
+
+  .blue-button {
+    float: right;
+  }
