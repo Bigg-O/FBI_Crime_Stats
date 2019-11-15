@@ -80,7 +80,9 @@ function renderStateData(state, stateData) {
         state.comments.forEach(comment => {
            const liComment = document.createElement("li")
            liComment.classList.add("list-group-item")
-            liComment.innerHTML = state.name +': '+ comment.content
+           commentContainer.innerHTML = 
+           '<h3>Comments:</h3>'
+            liComment.innerHTML = comment.username +': '+ comment.content
             UL_COMMENT.append(liComment)
             commentContainer.append(UL_COMMENT) 
         })
@@ -91,7 +93,8 @@ function renderStateData(state, stateData) {
         const liNewComment = document.createElement("li")
         liNewComment.classList.add("list-group-item")
         const commentInput = document.querySelector("#form_input").value
-        liNewComment.innerHTML = state.name +': '+ commentInput
+        const uNameInput = document.querySelector("#user_name_input").value
+        liNewComment.innerHTML = uNameInput +': '+ commentInput
         UL_COMMENT.append(liNewComment)
         commentContainer.append(UL_COMMENT)      
         fetch(COMMENTS_URL, {
@@ -102,7 +105,7 @@ function renderStateData(state, stateData) {
             },
             body: JSON.stringify({
                 content: commentInput,
-                username: "default",
+                username: uNameInput,
                 state_id: stateId
             })
         })
@@ -134,16 +137,20 @@ function createCommentForm(state) {
     if (!!COMMENT_FORM)
         COMMENT_FORM.remove()
     const container = document.querySelector("#container")
+    container.innerHTML = "<h2> Your Thoughts</h2>"
     COMMENT_FORM = document.createElement("FORM")
     COMMENT_FORM.id = "comment-id"
+    const userNameInput = document.createElement("input")
     const formInput = document.createElement("INPUT")
     const formSubmit = document.createElement("INPUT")
+    userNameInput.type = "text"
     formInput.type = "text"
     formInput.id = "form_input"
+    userNameInput.id = "user_name_input"
     formSubmit.type = "submit"
     formSubmit.value = "Submit"
     formSubmit.classList.add("blue-button")
-    COMMENT_FORM.append(formInput, formSubmit)
+    COMMENT_FORM.append(userNameInput, formInput, formSubmit)
     container.append(COMMENT_FORM)
 }
 
@@ -264,3 +271,4 @@ new Chart(document.getElementById("line-chart"), {
     }
   })
 }
+

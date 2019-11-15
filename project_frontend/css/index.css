@@ -33,9 +33,13 @@ canvas {
 }
 #comments-container {
     display: inline-block;
+    width: 300px
 }
+.list-group>li:nth-child(odd){
+    background:rgb(182, 206, 238);
+    }
 
-.header {
+#header {
   padding: 60px;
   text-align: center;
   background: #091841;
@@ -44,4 +48,10 @@ canvas {
   height: 116px;
 line-height: 116px;
 }
+
+#dropdownMenuButton {
+    width: 150px;
+    text-align: center;
+    margin:0 auto;
+  }
 
