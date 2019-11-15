@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
 
 
     def create
-        new_comment = Comment.create(content: params[:content], username: params[:user_name], state_id: params[:state_id])
+        new_comment = Comment.create(content: params[:content], username: params[:username], state_id: params[:state_id])
         render( {json: new_comment})
     end
 end
