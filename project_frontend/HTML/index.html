@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="ie=edge" http-equiv="X-UA-Compatible">
-  <title>Project</title>
+  <title>FBI Crime Graph</title>
 
   <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
   <link href="../css/index.css" rel="stylesheet">
@@ -13,7 +13,7 @@
 
 <body>
   <div id="header" class="sticky-top" >
-  <h1>Crime Statistics</h1>
+  <h1>FBI Crime Data by State and Crime</h1>
   </div>
   <div>
 
@@ -23,20 +23,23 @@
     </button>
     <div aria-labelledby="dropdownMenuButton" class="dropdown-menu" id="myDropdown"></div>
   </div>
-  
-</div>
-  <div>
-    <canvas height="720" id="myChart" style="display: block; height: 360px; width: 720px;" width="2440">
+
+    <div id='theCon'>
+        <div class='chartcon'>
+            <canvas id="line-chart" width="800" height="450"></canvas>
+        </div>
+        <div class='chartcon'>
+            <canvas height="720" id="myChart" style="display: block;" height='450px' width='800
+            px'>
+        </div>
+    </div>
+
+  <div id='allcomments'>
+    <div id="container">   
+    </div>
+    <div id="comments-container">
+    </div>
   </div>
-  <div>
-        <canvas id="line-chart" width="1440" height="450"></canvas>  
-  </div>
-  <div id="container">
-      
-  </div>
-  <div id="comments-container">
-  </div> 
-  
 
   <script crossorigin="anonymous" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
