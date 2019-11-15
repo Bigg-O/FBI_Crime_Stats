@@ -3,20 +3,25 @@ const API_KEY = "23MwwOlEB8Cnag16MoWiOPrBj1yQucexgv6kkwMM"
 const STATES_URL = "http://localhost:3000/states"
 const COMMENTS_URL = "http://localhost:3000/comments"
 const NATIONAL_CRIME_URL = `https://api.usa.gov/crime/fbi/sapi/api/estimates/national/2018/2018?API_KEY=${API_KEY}`
+const NATIONAL_ALL_CRIME_URL = `https://api.usa.gov/crime/fbi/sapi/api/estimates/national/1979/2018?API_KEY=${API_KEY}`
 let STATE_CRIMES = {
     "arson": 0, "burglary": 0, "homicide": 0, "larceny": 0, "motor_vehicle_theft": 0, "property_crime": 0, "rape_revised": 0, "robbery": 0, "violent_crime": 0}
 let NATIONAL_CRIMES = {
     "arson": 0, "burglary": 0, "homicide": 0, "larceny": 0, "motor_vehicle_theft": 0, "property_crime": 0, "rape_revised": 0, "robbery": 0, "violent_crime": 0}
 const CAPITA = 100000
 let CHART = null
+let LINE_CHART = null
 let COMMENT_FORM = null
 let UL_COMMENT = null
-
+const YEARS = []
+for(i = 1979; i <= 2018; i++){
+    YEARS.push(i)}
 
 // MAIN
 document.addEventListener("DOMContentLoaded", function() {
     fetchStates()
     fetchNationalData()
+    lineChartDataFetch()
 })
 
 // FUNCTIONS BELOW
@@ -58,17 +63,10 @@ function renderStateData(state, stateData) {
     const data = stateData.results.find(function(state) {
         return (state.year == 2018)})
     const pop = data.population
-    STATE_CRIMES.arson = parseInt(((data.arson * CAPITA) / pop), 10)
-    STATE_CRIMES.burglary = parseInt(((data.burglary * CAPITA) / pop), 10)
-    STATE_CRIMES.homicide = parseInt(((data.homicide * CAPITA) / pop), 10)
-    STATE_CRIMES.larceny = parseInt(((data.larceny * CAPITA) / pop), 10)
-    STATE_CRIMES.motor_vehicle_theft = parseInt(((data.motor_vehicle_theft * CAPITA) / pop), 10)
-    STATE_CRIMES.property_crime = parseInt(((data.property_crime * CAPITA) / pop), 10)
-    STATE_CRIMES.rape_revised = parseInt(((data.rape_revised * CAPITA) / pop), 10)
-    STATE_CRIMES.robbery = parseInt(((data.robbery * CAPITA) / pop), 10)
-    STATE_CRIMES.violent_crime = parseInt(((data.violent_crime * CAPITA) / pop), 10)
+    for (crime in STATE_CRIMES) {
+        STATE_CRIMES[crime] = parseInt(((data[crime] * CAPITA) / pop), 10)
+    }
     displayChart()
-    lineChart()
 
     const stateId = state.id
     const commentContainer = document.querySelector("#comments-container")
@@ -126,7 +124,6 @@ function fetchNationalData() {
         NATIONAL_CRIMES.robbery = parseInt(((dataResult.robbery * CAPITA) / pop), 10)
         NATIONAL_CRIMES.violent_crime = parseInt(((dataResult.violent_crime * CAPITA) / pop), 10)
         displayChart()
-        lineChart()
     })
 }
 
@@ -220,47 +217,100 @@ function displayChart() {
               text: 'Crime Data',
               position: 'bottom'
             }
-          }
+        }
     })
 }
-function lineChart() {
-new Chart(document.getElementById("line-chart"), {
-    type: 'line',
-    data: {
-      labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
-      datasets: [{ 
-          data: [86,114,106,106,107,111,133,221,783,2478],
-          label: "Africa",
-          borderColor: "#3e95cd",
-          fill: false
-        }, { 
-          data: [282,350,411,502,635,809,947,1402,3700,5267],
-          label: "Asia",
-          borderColor: "#8e5ea2",
-          fill: false
-        }, { 
-          data: [168,170,178,190,203,276,408,547,675,734],
-          label: "Europe",
-          borderColor: "#3cba9f",
-          fill: false
-        }, { 
-          data: [40,20,10,16,24,38,74,167,508,784],
-          label: "Latin America",
-          borderColor: "#e8c3b9",
-          fill: false
-        }, { 
-          data: [6,3,2,2,7,26,82,172,312,433],
-          label: "North America",
-          borderColor: "#c45850",
-          fill: false
+
+function lineChartDataFetch() {
+    let natAllData = []
+    fetch(NATIONAL_ALL_CRIME_URL)
+    .then(resp => resp.json())
+    .then(function(data){
+        //Sorting by years
+        YEARS.forEach(function(year){
+            for(i = 0; i < data.results.length; i++){
+                if (data.results[i].year == year){
+                    natAllData.push(data.results[i])
+                }
+            }
+        })
+        lineChart(convertData(natAllData))
+    })  
+}
+
+function convertData(data) {
+    result = {
+        "arson": 0, "burglary": 0, "homicide": 0, "larceny": 0, "motor_vehicle_theft": 0, "property_crime": 0, "rape_revised": 0, "robbery": 0, "violent_crime": 0}
+    singleCrimeData = []
+    for (const crime in result) {
+        for (i = 0; i < data.length; i++){
+            pop = data[i].population
+            singleCrimeData.push(parseInt((data[i][crime] * CAPITA)/pop, 10))
         }
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'World population per region (in millions)'
-      }
+        result[crime] = singleCrimeData
+        singleCrimeData = []
     }
-  })
+    return result
+}
+
+function lineChart(data) {
+    if (!!LINE_CHART)
+        LINE_CHART.destroy()
+    lineChart = new Chart(document.getElementById("line-chart"), {
+        type: 'line',
+        data: {
+        labels: YEARS,
+        datasets: [{
+            data: data.arson,
+            label: "Arson",
+            borderColor: "#3e95cd",
+            fill: false
+            }, { 
+            data: data.burglary,
+            label: "Burglary",
+            borderColor: "#8e5ea2",
+            fill: false
+            }, { 
+            data: data.homicide,
+            label: "Homicide",
+            borderColor: "#3cba9f",
+            fill: false
+            }, { 
+            data: data.larceny,
+            label: "Larceny",
+            borderColor: "#e8c3b9",
+            fill: false
+            }, { 
+            data: data.motor_vehicle_theft,
+            label: "Motot-Vehicle-Theft",
+            borderColor: "#c45850",
+            fill: false
+            }, { 
+            data: data.property_crime,
+            label: "Property-Crime",
+            borderColor: "#c45850",
+            fill: false
+            }, { 
+            data: data.rape_revised,
+            label: "Rape",
+            borderColor: "#c45850",
+            fill: false
+            }, { 
+            data: data.robbery,
+            label: "Robbery",
+            borderColor: "#c45850",
+            fill: false
+            }, { 
+            data: data.violent_crime,
+            label: "Violent-Crime",
+            borderColor: "#c45850",
+            fill: false
+            }
+        ]},
+        options: {
+            title: {
+                display: true,
+                text: 'DESCRIPTION'}
+        }
+    })
 }
