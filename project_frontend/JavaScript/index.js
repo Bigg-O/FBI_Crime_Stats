@@ -226,7 +226,7 @@ function displayChart() {
             title: {
               fontSize: 18,
               display: true,
-              text: 'FBI Crime Data 2018',
+              text: `FBI Crime Data 2018`,
               position: 'bottom'
             }
         }
@@ -266,6 +266,8 @@ function convertData(data) {
 }
 
 function lineChart(data) {
+    if (STATE == "State"){
+        STATE = "National"}
     if (!!LINE_CHART)
         LINE_CHART.destroy()
     LINE_CHART = new Chart(document.getElementById("line-chart"), {
@@ -323,7 +325,7 @@ function lineChart(data) {
             title: {
                 fontSize: 18,
                 display: true,
-                text: 'FBI Crime Data: 1979-2018',
+                text: `FBI ${STATE} Crime Data: 1979-2018`,
                 position: 'bottom'}
         }
     })
