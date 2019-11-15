@@ -114,15 +114,9 @@ function fetchNationalData() {
     .then(function(data){
         const dataResult = data.results[0]
         const pop = dataResult.population
-        NATIONAL_CRIMES.arson = parseInt(((dataResult.arson * CAPITA) / pop), 10)
-        NATIONAL_CRIMES.burglary = parseInt(((dataResult.burglary * CAPITA) / pop), 10)
-        NATIONAL_CRIMES.homicide = parseInt(((dataResult.homicide * CAPITA) / pop), 10)
-        NATIONAL_CRIMES.larceny = parseInt(((dataResult.larceny * CAPITA) / pop), 10)
-        NATIONAL_CRIMES.motor_vehicle_theft = parseInt(((dataResult.motor_vehicle_theft * CAPITA) / pop), 10)
-        NATIONAL_CRIMES.property_crime = parseInt(((dataResult.property_crime * CAPITA) / pop), 10)
-        NATIONAL_CRIMES.rape_revised = parseInt(((dataResult.rape_revised * CAPITA) / pop), 10)
-        NATIONAL_CRIMES.robbery = parseInt(((dataResult.robbery * CAPITA) / pop), 10)
-        NATIONAL_CRIMES.violent_crime = parseInt(((dataResult.violent_crime * CAPITA) / pop), 10)
+        for (crime in NATIONAL_CRIMES) {
+            NATIONAL_CRIMES[crime] = parseInt(((dataResult[crime] * CAPITA) / pop), 10)
+        }
         displayChart()
     })
 }
@@ -265,27 +259,27 @@ function lineChart(data) {
             label: "Arson",
             borderColor: "#3e95cd",
             fill: false
-            }, { 
+            }, {
             data: data.burglary,
             label: "Burglary",
             borderColor: "#8e5ea2",
             fill: false
-            }, { 
+            }, {
             data: data.homicide,
             label: "Homicide",
             borderColor: "#3cba9f",
             fill: false
-            }, { 
+            }, {
             data: data.larceny,
             label: "Larceny",
             borderColor: "#e8c3b9",
             fill: false
-            }, { 
+            }, {
             data: data.motor_vehicle_theft,
             label: "Motot-Vehicle-Theft",
             borderColor: "#c45850",
             fill: false
-            }, { 
+            }, {
             data: data.property_crime,
             label: "Property-Crime",
             borderColor: "#c45850",
