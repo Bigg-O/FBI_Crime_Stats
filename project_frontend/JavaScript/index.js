@@ -68,6 +68,7 @@ function renderStateData(state, stateData) {
     STATE_CRIMES.robbery = parseInt(((data.robbery * CAPITA) / pop), 10)
     STATE_CRIMES.violent_crime = parseInt(((data.violent_crime * CAPITA) / pop), 10)
     displayChart()
+    lineChart()
 
     const stateId = state.id
     const commentContainer = document.querySelector("#comments-container")
@@ -88,8 +89,9 @@ function renderStateData(state, stateData) {
     grabCommentForm.addEventListener('submit', function(e) {
         e.preventDefault()
         const liNewComment = document.createElement("li")
+        liNewComment.classList.add("list-group-item")
         const commentInput = document.querySelector("#form_input").value
-        liNewComment.innerHTML = commentInput
+        liNewComment.innerHTML = state.name +': '+ commentInput
         UL_COMMENT.append(liNewComment)
         commentContainer.append(UL_COMMENT)      
         fetch(COMMENTS_URL, {
@@ -124,6 +126,7 @@ function fetchNationalData() {
         NATIONAL_CRIMES.robbery = parseInt(((dataResult.robbery * CAPITA) / pop), 10)
         NATIONAL_CRIMES.violent_crime = parseInt(((dataResult.violent_crime * CAPITA) / pop), 10)
         displayChart()
+        lineChart()
     })
 }
 
@@ -219,4 +222,45 @@ function displayChart() {
             }
           }
     })
+}
+function lineChart() {
+new Chart(document.getElementById("line-chart"), {
+    type: 'line',
+    data: {
+      labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+      datasets: [{ 
+          data: [86,114,106,106,107,111,133,221,783,2478],
+          label: "Africa",
+          borderColor: "#3e95cd",
+          fill: false
+        }, { 
+          data: [282,350,411,502,635,809,947,1402,3700,5267],
+          label: "Asia",
+          borderColor: "#8e5ea2",
+          fill: false
+        }, { 
+          data: [168,170,178,190,203,276,408,547,675,734],
+          label: "Europe",
+          borderColor: "#3cba9f",
+          fill: false
+        }, { 
+          data: [40,20,10,16,24,38,74,167,508,784],
+          label: "Latin America",
+          borderColor: "#e8c3b9",
+          fill: false
+        }, { 
+          data: [6,3,2,2,7,26,82,172,312,433],
+          label: "North America",
+          borderColor: "#c45850",
+          fill: false
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'World population per region (in millions)'
+      }
+    }
+  })
 }
