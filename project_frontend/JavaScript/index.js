@@ -21,7 +21,7 @@ for(i = 1979; i <= 2018; i++){
 document.addEventListener("DOMContentLoaded", function() {
     fetchStates()
     fetchNationalData()
-    lineChartDataFetch()
+    lineChartDataFetch(NATIONAL_ALL_CRIME_URL)
 })
 
 // FUNCTIONS BELOW
@@ -46,7 +46,10 @@ function createDropdown(states) {
             filterName.innerHTML = state.name
             fetch(stateCrimeURL(state.abbreviation))
             .then(response => response.json())
-            .then(stateData => renderStateData(state, stateData))
+            .then(function(stateData) {
+                renderStateData(state, stateData)
+                lineChartDataFetch(stateCrimeURL(state.abbreviation))
+            })
             createCommentForm(state)
         })
     })
@@ -215,9 +218,9 @@ function displayChart() {
     })
 }
 
-function lineChartDataFetch() {
+function lineChartDataFetch(url) {
     let natAllData = []
-    fetch(NATIONAL_ALL_CRIME_URL)
+    fetch(url)
     .then(resp => resp.json())
     .then(function(data){
         //Sorting by years
@@ -250,7 +253,7 @@ function convertData(data) {
 function lineChart(data) {
     if (!!LINE_CHART)
         LINE_CHART.destroy()
-    lineChart = new Chart(document.getElementById("line-chart"), {
+    LINE_CHART = new Chart(document.getElementById("line-chart"), {
         type: 'line',
         data: {
         labels: YEARS,
@@ -259,27 +262,27 @@ function lineChart(data) {
             label: "Arson",
             borderColor: "#3e95cd",
             fill: false
-            }, {
+            }, { 
             data: data.burglary,
             label: "Burglary",
             borderColor: "#8e5ea2",
             fill: false
-            }, {
+            }, { 
             data: data.homicide,
             label: "Homicide",
             borderColor: "#3cba9f",
             fill: false
-            }, {
+            }, { 
             data: data.larceny,
             label: "Larceny",
             borderColor: "#e8c3b9",
             fill: false
-            }, {
+            }, { 
             data: data.motor_vehicle_theft,
             label: "Motot-Vehicle-Theft",
             borderColor: "#c45850",
             fill: false
-            }, {
+            }, { 
             data: data.property_crime,
             label: "Property-Crime",
             borderColor: "#c45850",
