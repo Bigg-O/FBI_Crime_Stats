@@ -1,5 +1,5 @@
 // Global Variables
-const API_KEY = process.API_KEY
+const API_KEY = "23MwwOlEB8Cnag16MoWiOPrBj1yQucexgv6kkwMM"
 const STATES_URL = "http://localhost:3000/states"
 const COMMENTS_URL = "http://localhost:3000/comments"
 const NATIONAL_CRIME_URL = `https://api.usa.gov/crime/fbi/sapi/api/estimates/national/2018/2018?API_KEY=${API_KEY}`
