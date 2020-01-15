@@ -1,6 +1,6 @@
 // Global Variables
-const STATES_URL = "http://localhost:3000/states"
-const COMMENTS_URL = "http://localhost:3000/comments"
+const STATES_URL = "https://safe-crag-38678.herokuapp.com/states"
+const COMMENTS_URL = "https://safe-crag-38678.herokuapp.com/comments"
 const API_KEY = "23MwwOlEB8Cnag16MoWiOPrBj1yQucexgv6kkwMM"
 const NATIONAL_CRIME_URL = `https://api.usa.gov/crime/fbi/sapi/api/estimates/national/2018/2018?API_KEY=${API_KEY}`
 const NATIONAL_ALL_CRIME_URL = `https://api.usa.gov/crime/fbi/sapi/api/estimates/national/1979/2018?API_KEY=${API_KEY}`
