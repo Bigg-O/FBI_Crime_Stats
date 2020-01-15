@@ -76,7 +76,7 @@ function renderStateData(state, stateData) {
     const commentContainer = document.querySelector("#comments-container")
     UL_COMMENT = document.createElement("ul")
     UL_COMMENT.classList.add("list-group")
-    fetch(`http://localhost:3000/states/${state.id}`)
+    fetch(`https://safe-crag-38678.herokuapp.com/states/${state.id}`)
     .then(resp => resp.json())
     .then(state => {
         state.comments.forEach(comment => {
