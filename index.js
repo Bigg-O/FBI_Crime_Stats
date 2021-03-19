@@ -239,6 +239,7 @@ function lineChartDataFetch(url) {
     .then(resp => resp.json())
     .then(function(data){
         // console.log(data)
+        // checking
         //Sorting by years
         YEARS.forEach(function(year){
             for(i = 0; i < data.results.length; i++){
