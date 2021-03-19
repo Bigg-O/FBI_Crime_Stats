@@ -56,9 +56,9 @@ function createDropdown(states) {
         })
     })
 }
- 
+
 function stateCrimeURL(state) {
-    return `https://api.usa.gov/crime/fbi/sapi/api/estimates/states/${state}/2018/2018?API_KEY=${API_KEY}`
+    return `https://api.usa.gov/crime/fbi/sapi/api/estimates/states/${state}/1979/2018?API_KEY=${API_KEY}`
 }
 
 // State data and Comments
@@ -238,6 +238,7 @@ function lineChartDataFetch(url) {
     fetch(url)
     .then(resp => resp.json())
     .then(function(data){
+        // console.log(data)
         //Sorting by years
         YEARS.forEach(function(year){
             for(i = 0; i < data.results.length; i++){
